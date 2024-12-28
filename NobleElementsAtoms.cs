@@ -1,6 +1,7 @@
 ﻿using AtomTypes = class_175;
 using Texture = class_256;
 using CardinalAtomColors = class_5;
+using DefaultAtomColors = class_106;
 
 namespace OMNobleElements
 {
@@ -10,29 +11,32 @@ namespace OMNobleElements
 
         public static void AddAtomTypes()
         {
+            Nobilis = CreateAtomType("nobilis", 220);
+            Alpha = CreateAtomType("alpha", 221);
+            Beta = CreateAtomType("beta", 222);
+            Gamma = CreateAtomType("gamma", 223);
         }
 
-        public static AtomType CreateAtomType(string name)
+        private static AtomType CreateAtomType(string name, byte id)
         {
-            string upper_name = name[0].ToString().ToUpper() + name.Substring(1);
+            var upperName = name[0].ToString().ToUpper() + name.Substring(1);
             
             return new AtomType()
             {
                 field_2283 = 218, /*ID*/
                 field_2293 = false, /*Is Cardinal*/
-                field_2284 = class_134.method_254(upper_name), /*Non-local Name*/
-                field_2285 = class_134.method_253($"Elemental {upper_name}", string.Empty), /*Atomic Name*/
+                field_2284 = class_134.method_254(upperName), /*Non-local Name*/
+                field_2285 = class_134.method_253($"Elemental {upperName}", string.Empty), /*Atomic Name*/
                 field_2286 = class_134.method_253(name, string.Empty), /*Local name*/
-                field_2287 = class_235.method_615("noble_elements/textures/atoms/{name}_symbol"), /*Symbol*/
-                field_2288 = class_235.method_615("noble_elements/textures/atoms/{name}_shadow"), /*Shadow*/
-                field_2289 = new CardinalAtomColors()
+                field_2287 = class_235.method_615($"noble_elements/textures/atoms/{name}_symbol"), /*Symbol*/
+                field_2288 = class_235.method_615($"noble_elements/textures/atoms/{name}_shadow"), /*Shadow*/
+                field_2290 = new DefaultAtomColors()
                 {
-                    field_8 = class_235.method_615("noble_elements/textures/atoms/{name}_base"),/*Base*/
-                    field_9 = class_238.field_1989.field_73,/*Fog*/
-                    field_10 = class_238.field_1989.field_73 /*Base 2*/
+                    field_994 = class_235.method_615($"noble_elements/textures/atoms/{name}_diffuse"),
+                    field_995 = class_235.method_615($"noble_elements/textures/atoms/{name}_shade")
                 },
                 field_2296 = true,
-                QuintAtomType = "NobleElements:{name}"
+                QuintAtomType = $"NobleElements:{name}"
             };
         }
     }

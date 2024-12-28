@@ -18,5 +18,10 @@ namespace OMNobleElements
         {
 
         }
+
+        public override void LoadPuzzleContent()
+        {
+            NobleElementsAtoms.AddAtomTypes();
+        }
     }
 }
