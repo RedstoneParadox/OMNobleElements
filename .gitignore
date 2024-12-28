@@ -1,5 +1,7 @@
 bin/
 obj/
+.idea/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+OMNobleElements.sln.DotSettings.user
