@@ -1,4 +1,5 @@
-﻿using AtomTypes = class_175;
+﻿using Quintessential;
+using AtomTypes = class_175;
 using Texture = class_256;
 using AtomGraphics = class_106;
 
@@ -14,6 +15,11 @@ namespace OMNobleElements
             Alpha = CreateAtomType("alpha", 221);
             Beta = CreateAtomType("beta", 222);
             Gamma = CreateAtomType("gamma", 223);
+            
+            QApi.AddAtomType(Nobilis);
+            QApi.AddAtomType(Alpha);
+            QApi.AddAtomType(Beta);
+            QApi.AddAtomType(Gamma);
         }
 
         private static AtomType CreateAtomType(string name, byte id, bool prime = false)
