@@ -1,6 +1,6 @@
 ﻿Name: Noble Elements
 Version: 0.1.0
-DLL: "bin/Debug/net4.5.1/OMNobleElements.dll"
+DLL: "bin/Debug/OMNobleElements.dll"
 Dependencies:
   - Name: Quintessential
     Version: 0.5.1
