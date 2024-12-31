@@ -3,4 +3,4 @@ Version: 0.1.0
 DLL: "bin/Debug/net4.5.1/OMNobleElements.dll"
 Dependencies:
   - Name: Quintessential
-    Version: 0.4.0
+    Version: 0.5.1
