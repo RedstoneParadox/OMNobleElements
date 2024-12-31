@@ -28,7 +28,7 @@ namespace OMNobleElements
             var graphics = new AtomGraphics()
             {
                 field_994 = class_235.method_615($"noble_elements/textures/atoms/{name}_diffuse"),
-                field_995 = class_235.method_615($"noble_elements/textures/atoms/salt_shade")
+                field_995 = class_235.method_615($"textures/atoms/salt_shade")
             };
 
             if (prime)
@@ -43,13 +43,16 @@ namespace OMNobleElements
             return new AtomType()
             {
                 field_2283 = id, /*ID*/
-                field_2293 = false, /*Is Cardinal*/
                 field_2284 = class_134.method_254(upperName), /*Non-local Name*/
                 field_2285 = class_134.method_253($"Elemental {upperName}", string.Empty), /*Atomic Name*/
                 field_2286 = class_134.method_253(name, string.Empty), /*Local name*/
                 field_2287 = class_235.method_615($"noble_elements/textures/atoms/{name}_symbol"), /*Symbol*/
+                field_2288 = class_238.field_1989.field_81.field_599,                 /*Shadow*/
                 field_2290 = graphics,
-                field_2296 = true,
+                field_2293 = false, /*Is Cardinal*/
+                field_2294 = false, /*Is Metal(?)*/
+                field_2295 = false, /*Is projector fuel*/
+                field_2296 = false, /*Is quintessence*/
                 QuintAtomType = $"NobleElements:{name}"
             };
         }
