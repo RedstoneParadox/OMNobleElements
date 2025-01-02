@@ -1,4 +1,6 @@
-﻿using Quintessential;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Quintessential;
 
 using PartType = class_139;
 using PartTypes = class_191;
@@ -12,6 +14,15 @@ namespace OMNobleElements
         public static PartType Reactivity;
         // Puzzle Options
         public static PuzzleOption ReactivityOption;
+        // Hex order for reactivity
+        public static HexIndex[] reactivityHexes = new HexIndex[3]
+        {
+            new HexIndex(0, 0), // Alpha
+            new HexIndex(0, -1), // Beta
+            new HexIndex(1, -1) // Gamma
+        };
+        //define a convenient helper
+        public static MethodInfo PrivateMethod<T>(string method) => typeof(T).GetMethod(method, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
         
         public static void AddGlyphs()
         {
@@ -25,12 +36,7 @@ namespace OMNobleElements
                     "Glyph of Reactivity",
                     "the glyph of reactivity transmutes one nobilis and one noble element into the other two",
                     30,
-                    new HexIndex[3]
-                    {
-                        new HexIndex(0, 0),
-                        new HexIndex(0, -1),
-                        new HexIndex(1, -1)
-                    },
+                    reactivityHexes,
                     class_235.method_615(iconpath + "reactivity"),
                     class_235.method_615(iconpath + "reactivity_hover"),
                     class_238.field_1989.field_97.field_374, // double_glow
@@ -46,6 +52,113 @@ namespace OMNobleElements
                 var originHex = new HexIndex(0, 0);
             });
             QApi.AddPartTypeToPanel(Reactivity, false);
+        }
+
+        private static void RunGlyphs(Sim sim, bool isConsumptionHalfStep)
+        {
+            var SEB = sim.field_3818;
+            var solution = SEB.method_502();
+            var partList = solution.field_3919;
+            var partSimStates = sim.field_3821;
+            var struct122List = sim.field_3826;
+            var moleculeList = sim.field_3823;
+            var gripperList = sim.HeldGrippers;
+            
+            //define some helpers
+            Maybe<AtomReference> maybeFindAtom(Part part, HexIndex hex, List<Part> list, bool checkWheels = false)
+            {
+                return (Maybe<AtomReference>)PrivateMethod<Sim>("method_1850").Invoke(sim, new object[] { part, hex, list, checkWheels });
+            }
+
+            void spawnAtomAtHex(Part part, HexIndex hex, AtomType atom)
+            {
+                Molecule molecule = new Molecule();
+                molecule.method_1105(new Atom(atom), part.method_1184(hex));
+                moleculeList.Add(molecule);
+            }
+
+            void consumeAtomReference(AtomReference atomRef)
+            {
+                // delete the input atom
+                atomRef.field_2277.method_1107(atomRef.field_2278);
+                // draw input getting consumed
+                SEB.field_3937.Add(new class_286(SEB, atomRef.field_2278, atomRef.field_2280));
+            }
+
+            bool doesBondExist(Part part, Molecule molecule, enum_126 bond, HexIndex index1, HexIndex index2)
+            {
+                var index1True = part.method_1184(index1);
+                var index2True = part.method_1184(index2);
+
+                return molecule.method_1113(index1True, index2True) == bond;
+            }
+
+            foreach (var part in partList)
+            {
+                PartSimState partSimState = partSimStates[part];
+                var partType = part.method_1159();
+
+                if (partType == Reactivity)
+                {
+                    var types = new AtomType[] { NobleElementsAtoms.Alpha, NobleElementsAtoms.Beta, NobleElementsAtoms.Gamma };
+                    var canTransmuate = true;
+                    AtomReference nobilis = null;
+                    AtomReference other = null;
+                    AtomType nobilisTransumation = null;
+                    AtomType otherTransumation = null;
+                    int nobilisIndex = -1;
+                    int otherIndex = -1;
+
+                    // Count the number of occupied hexes
+                    for (var i = 0; i < 3; i++)
+                    {
+                        var atom = default(AtomReference);
+                        var hex = reactivityHexes[i];
+                        maybeFindAtom(part, hex, partList).method_99(out atom);
+
+                        if (atom.field_2280 == types[i])
+                        {
+                            canTransmuate = false;
+                        }
+                        else
+                        {
+                            // More than one of alpha, beta, and/or gamma is on the glyph
+                            if (other != null)
+                            {
+                                canTransmuate = false;
+                            }
+                            
+                            other = atom;
+                            otherTransumation = types[i];
+                            otherIndex = i;
+                        }
+
+                        if (atom.field_2280 == NobleElementsAtoms.Nobilis)
+                        {
+                            // More than one atom of nobilis is on the glyph
+                            if (nobilis != null)
+                            {
+                                canTransmuate = false;
+                            }
+                            
+                            nobilis = atom;
+                            nobilisTransumation = types[i];
+                            nobilisIndex = i;
+                        }
+                    }
+                    
+                    if (canTransmuate)
+                    {
+                        // Transmute Nobilis
+                        consumeAtomReference(nobilis);
+                        spawnAtomAtHex(part, reactivityHexes[nobilisIndex], nobilisTransumation);
+                        
+                        // Transmute Alpha, Beta, or Gamma
+                        consumeAtomReference(other);
+                        spawnAtomAtHex(part, reactivityHexes[otherIndex], otherTransumation);
+                    }
+                }
+            }
         }
         
         // Theft
