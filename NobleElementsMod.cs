@@ -23,5 +23,7 @@ namespace OMNobleElements
         {
             NobleElementsAtoms.AddAtomTypes();
         }
+        
+        public static Vector2 hexGraphicalOffset(HexIndex hex) => class_187.field_1742.method_492(hex);
     }
 }
