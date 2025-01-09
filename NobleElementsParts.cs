@@ -153,6 +153,18 @@ namespace OMNobleElements
                         {
                             canTransmuate = false;
                         }
+                        else if (atom.field_2280 == NobleElementsAtoms.Nobilis)
+                        {
+                            // More than one atom of nobilis is on the glyph
+                            if (nobilis != null)
+                            {
+                                canTransmuate = false;
+                            }
+                            
+                            nobilis = atom;
+                            nobilisTransumation = types[i];
+                            nobilisIndex = i;
+                        }
                         else
                         {
                             // More than one of alpha, beta, and/or gamma is on the glyph
@@ -164,19 +176,6 @@ namespace OMNobleElements
                             other = atom;
                             otherTransumation = types[i];
                             otherIndex = i;
-                        }
-
-                        if (atom.field_2280 == NobleElementsAtoms.Nobilis)
-                        {
-                            // More than one atom of nobilis is on the glyph
-                            if (nobilis != null)
-                            {
-                                canTransmuate = false;
-                            }
-                            
-                            nobilis = atom;
-                            nobilisTransumation = types[i];
-                            nobilisIndex = i;
                         }
                     }
                     
