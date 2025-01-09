@@ -12,6 +12,8 @@ namespace OMNobleElements
     {
         // Part Types
         public static PartType Reactivity;
+
+        public static PartType Coronation;
         // Puzzle Options
         public static PuzzleOption ReactivityOption;
         // Hex order for reactivity
@@ -46,10 +48,12 @@ namespace OMNobleElements
             
             var reactivityPath = path + "parts/reactivity/";
             Texture reactivityBase = class_235.method_615( "textures/parts/prismabonder_base");
+            Texture coronationBase = class_235.method_615( "textures/parts/calcinator_base");
             Texture reactivityBowl = class_235.method_615( "textures/parts/calcinator_bowl");
             Texture alphaSymbol = class_235.method_615(reactivityPath + "alpha_symbol");
             Texture betaSymbol = class_235.method_615(reactivityPath + "beta_symbol");
             Texture gammaSymbol = class_235.method_615(reactivityPath + "gamma_symbol");
+            Texture nobilisSymbol = class_235.method_615(reactivityPath + "nobilis_symbol");
             Texture[] symbols = new[] { alphaSymbol, betaSymbol, gammaSymbol };
             
             QApi.AddPartType(Reactivity, (part, pos, editor, renderer) =>
@@ -80,6 +84,45 @@ namespace OMNobleElements
                 }
             });
             QApi.AddPartTypeToPanel(Reactivity, false);
+            
+            Coronation = makeGlyph(
+                "noble-elements-coronation",
+                "Glyph of Coronation",
+                "the glyph of coronation transmutes alpha, beta, or gamma into nobilis",
+                10,
+                reactivityHexes,
+                class_235.method_615(iconpath + "reactivity"),
+                class_235.method_615(iconpath + "reactivity_hover"),
+                class_238.field_1989.field_97.field_374, // double_glow
+                class_238.field_1989.field_97.field_375, // double_stroke
+                false
+            );
+
+            QApi.AddPartType(Reactivity, (part, pos, editor, renderer) =>
+            {
+                PartSimState partSimState = editor.method_507().method_481(part);
+                var simTime = editor.method_504();
+                
+                float partAngle = renderer.field_1798;
+                Vector2 base_offset = new Vector2(82f, 120f);
+
+                var originHex = new HexIndex(0, 0);
+                
+                drawPartGraphic(
+                    renderer,
+                    coronationBase, 
+                    base_offset, 
+                    0.0f, 
+                    Vector2.Zero, 
+                    new Vector2(-1f, -1f)
+                );
+                foreach (HexIndex idx in part.method_1159().field_1540)
+                {
+                    renderer.method_528(reactivityBowl, idx, Vector2.Zero);
+                    renderer.method_528(nobilisSymbol, idx, Vector2.Zero);
+                }
+            });
+            QApi.AddPartTypeToPanel(Coronation, false);
         }
 
         public static void RunGlyphs(Sim sim, bool isConsumptionHalfStep)
@@ -188,6 +231,27 @@ namespace OMNobleElements
                         // Transmute Alpha, Beta, or Gamma
                         consumeAtomReference(other);
                         spawnAtomAtHex(part, reactivityHexes[otherIndex], otherTransumation);
+                    }
+                }
+                else if (partType == Coronation)
+                {
+                    var types = new AtomType[] { NobleElementsAtoms.Alpha, NobleElementsAtoms.Beta, NobleElementsAtoms.Gamma };
+                    var atom = default(AtomReference);
+                    var hex = new HexIndex(0, 0);
+                    
+                    maybeFindAtom(part, hex, partList).method_99(out atom);
+
+                    if (atom != null)
+                    {
+                        foreach (var type in types)
+                        {
+                            if (atom.field_2280 == type)
+                            {
+                                consumeAtomReference(atom);
+                                spawnAtomAtHex(part, hex, NobleElementsAtoms.Nobilis);
+                                break;
+                            }
+                        }
                     }
                 }
             }
