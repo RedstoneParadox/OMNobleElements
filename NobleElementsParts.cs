@@ -90,7 +90,7 @@ namespace OMNobleElements
                 "Glyph of Coronation",
                 "the glyph of coronation transmutes alpha, beta, or gamma into nobilis",
                 10,
-                reactivityHexes,
+                new HexIndex[] { new HexIndex(0, 0) },
                 class_235.method_615(iconpath + "reactivity"),
                 class_235.method_615(iconpath + "reactivity_hover"),
                 class_238.field_1989.field_97.field_374, // double_glow
@@ -98,13 +98,13 @@ namespace OMNobleElements
                 false
             );
 
-            QApi.AddPartType(Reactivity, (part, pos, editor, renderer) =>
+            QApi.AddPartType(Coronation, (part, pos, editor, renderer) =>
             {
                 PartSimState partSimState = editor.method_507().method_481(part);
                 var simTime = editor.method_504();
                 
                 float partAngle = renderer.field_1798;
-                Vector2 base_offset = new Vector2(82f, 120f);
+                Vector2 base_offset = new Vector2(41f, 48f);
 
                 var originHex = new HexIndex(0, 0);
                 
@@ -116,11 +116,8 @@ namespace OMNobleElements
                     Vector2.Zero, 
                     new Vector2(-1f, -1f)
                 );
-                foreach (HexIndex idx in part.method_1159().field_1540)
-                {
-                    renderer.method_528(reactivityBowl, idx, Vector2.Zero);
-                    renderer.method_528(nobilisSymbol, idx, Vector2.Zero);
-                }
+                renderer.method_528(reactivityBowl, originHex, Vector2.Zero);
+                renderer.method_528(nobilisSymbol, originHex, Vector2.Zero);
             });
             QApi.AddPartTypeToPanel(Coronation, false);
         }
