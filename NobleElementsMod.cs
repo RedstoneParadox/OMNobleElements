@@ -22,6 +22,9 @@ namespace OMNobleElements
         public override void LoadPuzzleContent()
         {
             NobleElementsAtoms.AddAtomTypes();
+            NobleElementsParts.AddGlyphs();
+            
+            QApi.RunAfterCycle(NobleElementsParts.RunGlyphs);
         }
         
         public static Vector2 hexGraphicalOffset(HexIndex hex) => class_187.field_1742.method_492(hex);

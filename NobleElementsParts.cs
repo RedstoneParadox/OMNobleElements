@@ -82,7 +82,7 @@ namespace OMNobleElements
             QApi.AddPartTypeToPanel(Reactivity, false);
         }
 
-        private static void RunGlyphs(Sim sim, bool isConsumptionHalfStep)
+        public static void RunGlyphs(Sim sim, bool isConsumptionHalfStep)
         {
             var SEB = sim.field_3818;
             var solution = SEB.method_502();
