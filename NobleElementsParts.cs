@@ -27,7 +27,7 @@ namespace OMNobleElements
         public static void AddGlyphs()
         {
             string path, iconpath, selectpath;
-            path = "phlogiston/textures/";
+            path = "noble_elements/textures/";
             iconpath = path + "parts/icons/";
             selectpath = path + "select/";
             
@@ -44,12 +44,40 @@ namespace OMNobleElements
                     false
                 );
             
+            var reactivityPath = path + "parts/reactivity/";
+            Texture reactivityBase = class_235.method_615( "textures/parts/prismabonder_base");
+            Texture reactivityBowl = class_235.method_615( "textures/parts/calcinator_bowl");
+            Texture alphaSymbol = class_235.method_615(reactivityPath + "alpha_symbol");
+            Texture betaSymbol = class_235.method_615(reactivityPath + "beta_symbol");
+            Texture gammaSymbol = class_235.method_615(reactivityPath + "gamma_symbol");
+            Texture[] symbols = new[] { alphaSymbol, betaSymbol, gammaSymbol };
+            
             QApi.AddPartType(Reactivity, (part, pos, editor, renderer) =>
             {
                 PartSimState partSimState = editor.method_507().method_481(part);
                 var simTime = editor.method_504();
+                
+                float partAngle = renderer.field_1798;
+                Vector2 base_offset = new Vector2(90f, 180f);
 
                 var originHex = new HexIndex(0, 0);
+                
+                drawPartGraphic(
+                    renderer, 
+                    reactivityBase, 
+                    base_offset, 
+                    0.0f, 
+                    Vector2.Zero, 
+                    new Vector2(-1f, -1f)
+                    );
+
+                int i = 0;
+                foreach (HexIndex idx in part.method_1159().field_1540)
+                {
+                    renderer.method_528(reactivityBase, idx, Vector2.Zero);
+                    renderer.method_528(symbols[i], idx, Vector2.Zero);
+                    i++;
+                }
             });
             QApi.AddPartTypeToPanel(Reactivity, false);
         }
