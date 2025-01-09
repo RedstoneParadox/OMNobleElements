@@ -144,6 +144,11 @@ namespace OMNobleElements
                         var hex = reactivityHexes[i];
                         maybeFindAtom(part, hex, partList).method_99(out atom);
 
+                        if (atom == null)
+                        {
+                            continue;
+                        }
+
                         if (atom.field_2280 == types[i])
                         {
                             canTransmuate = false;
@@ -175,7 +180,7 @@ namespace OMNobleElements
                         }
                     }
                     
-                    if (canTransmuate)
+                    if (nobilis != null && other != null && canTransmuate)
                     {
                         // Transmute Nobilis
                         consumeAtomReference(nobilis);
