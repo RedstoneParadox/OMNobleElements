@@ -34,7 +34,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Lightning">
-          <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Opus Magnum\ModdedLightning.exe</HintPath>
+          <HintPath>..\..\ModdedLightning.exe</HintPath>
         </Reference>
         <Reference Include="MMHOOK_ModdedLightning">
           <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Opus Magnum\MMHOOK_ModdedLightning.dll</HintPath>

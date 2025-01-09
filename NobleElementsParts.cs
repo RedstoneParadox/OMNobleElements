@@ -58,12 +58,12 @@ namespace OMNobleElements
                 var simTime = editor.method_504();
                 
                 float partAngle = renderer.field_1798;
-                Vector2 base_offset = new Vector2(90f, 180f);
+                Vector2 base_offset = new Vector2(82f, 120f);
 
                 var originHex = new HexIndex(0, 0);
                 
                 drawPartGraphic(
-                    renderer, 
+                    renderer,
                     reactivityBase, 
                     base_offset, 
                     0.0f, 
@@ -74,7 +74,7 @@ namespace OMNobleElements
                 int i = 0;
                 foreach (HexIndex idx in part.method_1159().field_1540)
                 {
-                    renderer.method_528(reactivityBase, idx, Vector2.Zero);
+                    renderer.method_528(reactivityBowl, idx, Vector2.Zero);
                     renderer.method_528(symbols[i], idx, Vector2.Zero);
                     i++;
                 }
