@@ -35,18 +35,22 @@
     <ItemGroup>
         <Reference Include="Lightning">
           <HintPath>..\..\ModdedLightning.exe</HintPath>
+            <Private>false</Private>
         </Reference>
         <Reference Include="MMHOOK_ModdedLightning">
           <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Opus Magnum\MMHOOK_ModdedLightning.dll</HintPath>
+            <Private>false</Private>
         </Reference>
         <Reference Include="Mono.Cecil">
           <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Opus Magnum\Mono.Cecil.dll</HintPath>
         </Reference>
         <Reference Include="MonoMod.RuntimeDetour">
           <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Opus Magnum\MonoMod.RuntimeDetour.dll</HintPath>
+            <Private>false</Private>
         </Reference>
         <Reference Include="MonoMod.Utils">
           <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Opus Magnum\MonoMod.Utils.dll</HintPath>
+            <Private>false</Private>
         </Reference>
         <Reference Include="System"/>
         <Reference Include="System.Core"/>
